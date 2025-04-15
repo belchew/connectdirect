@@ -1,1 +1,3 @@
 #EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"
+#EXTINF:-1 tvg-name="БНТ 1" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-1-hd.png" group-title="ЕФИРНИ" , BNT 1 HD
+https://cdn11.glebul.com/dvr/hd-bnt-1-hd/tracks-v1a1/.m3u8?e=1744714114&hash=3vPAWI7RljREW5nQ17VdQQ
