@@ -1,12 +1,14 @@
-
-name: Python CI
+name: Running update...
 
 on:
   push:
     branches: [main]
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "0,30 * * * *"  # Задава на всеки половин час
   workflow_dispatch:
+
+permissions:
+  contents: write  # Позволява писане на съдържание (за commit и push)
 
 jobs:
   build:
@@ -15,6 +17,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set Git user
+        run: |
+          git config --global user.name "belchew"
+          git config --global user.email "belchew@outlook.com"
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -42,4 +49,4 @@ jobs:
         run: |
           git add sources.m3u
           git commit -m "Update sources.m3u via GitHub Actions" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
+          git push https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
