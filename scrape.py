@@ -7,7 +7,7 @@ import subprocess
 
 # Channel mapping
 channel_mapping = {
-            '#EXTINF:-1 tvg-name="БНТ 1" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-1-hd.png" group-title="ЕФИРНИ" , BNT 1 HD': 'https://cdn11.glebul.com/dvr/hd-bnt-1-hd/tracks-v1a1/index.m3u8?e=1744715201&hash=SZtOMg3PfGVjcPCwVAzJRA',
+            '#EXTINF:-1 tvg-name="БНТ 1" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-1-hd.png" group-title="ЕФИРНИ" , BNT 1 HD': 'https://www.seir-sanduk.com/?player=3&id=hd-bnt-1-hd&pass=',
             '#EXTINF:-1 tvg-name="bTV" tvg-logo="https://www.glebul.com/images/tv-logo/btv-hd.png" group-title="ЕФИРНИ" , bTV HD': 'https://www.seir-sanduk.com/?player=3&id=hd-btv-hd&pass=',
             '#EXTINF:-1 tvg-name="Nova TV" tvg-logo="https://www.glebul.com/images/tv-logo/nova-tv-hd.png" group-title="ЕФИРНИ" , NovaTV': 'https://www.seir-sanduk.com/?player=3&id=hd-nova-tv-hd&pass=',
             '#EXTINF:-1 tvg-name="БНТ 2" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-2.png" group-title="ЕФИРНИ" , BNT 2': 'https://www.seir-sanduk.com/?id=bnt-2&pass=&hash=',
