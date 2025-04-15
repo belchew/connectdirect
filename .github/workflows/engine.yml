@@ -3,8 +3,8 @@ name: Running update...
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: "0,30 * * * *"  # Задава на всеки половин час
+#  schedule:
+#    - cron: "0,30 * * * *"  # Задава на всеки половин час
   workflow_dispatch:
 
 permissions:
