@@ -4,6 +4,7 @@ import re
 import pandas as pd
 import requests
 import subprocess
+from playwright.sync_api import sync_playwright
 
 # Channel mapping
 channel_mapping = {
@@ -86,48 +87,55 @@ channel_mapping = {
     # Add more channels as needed
 }
 
-# Creating function to m3u8 sniffer
+# 🧠 Функция за извличане на m3u8 линк чрез Playwright
 def update_links(channel, source_link):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/91.0.4472.124 Safari/537.36'
-    }
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+            page.goto(source_link, timeout=60000)
+            page.wait_for_timeout(5000)  # изчакай JavaScript
+            content = page.content()
+            browser.close()
 
-    with requests.Session() as session:
-        try:
-            response = session.get(source_link, headers=headers, timeout=10)
-            response.raise_for_status()
-        except requests.exceptions.RequestException as e:
-            print(f"Request failed for {channel}: {e}")
-            return None
+            match = re.search(r'https://[^\s"]+\.m3u8(?:\?[^\s"]*)?', content)
+            if match:
+                m3u_link = match.group(0)
+                print(f"✅ Fetched m3u link for {channel[:40]}...: {m3u_link}")
+                return m3u_link
+            else:
+                print(f"❌ No m3u link found for {channel[:40]}...")
+                return None
+    except Exception as e:
+        print(f"🚨 Error fetching link for {channel[:40]}...: {e}")
+        return None
 
-        match = re.search(r'https://[^\s"]+\.m3u8(?:\?[^\s"]*)?', response.text)
-        if match:
-            m3u_link = match.group(0)
-            print(f"Fetched m3u link for {channel}: {m3u_link}")
-            return m3u_link
-        else:
-            print(f"No m3u link found for {channel}")
-            return None
-
-# Use function to sniff channels links in mapping
+# ▶️ Основна логика
 data_list = []
 m3u_links = []
 
 for channel, source_link in channel_mapping.items():
     fetched_link = update_links(channel, source_link)
-    data_list.append({'Channel': channel, 'SourceLink': source_link, 'LinkToUpdate': fetched_link})
-    if fetched_link:  # If link is fetched, we add it to the m3u_links list
+    data_list.append({
+        'Channel': channel,
+        'SourceLink': source_link,
+        'LinkToUpdate': fetched_link
+    })
+    if fetched_link:
         m3u_links.append(f"{channel}\n{fetched_link}")
 
-channel_df = pd.DataFrame(data_list)
-
-# Write the fetched m3u links into the sources.m3u file
+# 📦 Запис на резултатите в .m3u файл
 file_path = 'sources.m3u'
 
-# Clear the file before writing new links
-with open(file_path, 'w') as file:  # 'w' mode will overwrite the file (clear it first)
-    file.write('#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"\n')  # Добавяме на първия ред #EXTM3U
+with open(file_path, 'w', encoding='utf-8') as file:
+    file.write('#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"\n')
     for link in m3u_links:
         file.write(link + '\n')
+
+print(f"\n✅ File `{file_path}` successfully updated with new links.")
+
+# (по желание) CSV лог
+df = pd.DataFrame(data_list)
+df.to_csv('m3u_links_log.csv', index=False)
 
 print(f"File {file_path} successfully updated with new links.")
