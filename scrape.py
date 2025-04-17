@@ -88,19 +88,18 @@ channel_mapping = {
     # Add more channels as needed
 }
 
-# 📡 Извличане на m3u8 линк
 def update_links(channel, source_link):
     try:
         from playwright.sync_api import sync_playwright
 
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)  # Смени на False за визуално наблюдение
+            browser = p.chromium.launch(headless=True)
             context = browser.new_context()
             page = context.new_page()
 
             m3u8_link = None
 
-            # 👉 Функция, която ще прослушва отговорите за .m3u8
+            # 👉 Функция за хващане на m3u8 линкове
             def handle_response(response):
                 nonlocal m3u8_link
                 url = response.url
@@ -112,12 +111,18 @@ def update_links(channel, source_link):
             print(f"🌐 Visiting: {source_link}")
             page.goto(source_link, timeout=30000)
 
-            # 🎯 Закачаме прослушване на отговори за всички фреймове
+            # 🎯 Закачаме handler за отговори в основната страница
             page.on("response", handle_response)
-            for frame in page.frames:
-                frame.on("response", handle_response)
 
-            # ⏳ Изчакваме video елемент да се появи
+            # 🔍 Закачаме handler и към всеки frame
+            for frame in page.frames:
+                try:
+                    frame.on("response", handle_response)
+                    print(f"🧩 Listening in frame: {frame.url}")
+                except Exception as frame_err:
+                    print(f"⚠️ Frame error: {frame_err}")
+
+            # ⏳ Изчакваме за <video> елемент
             try:
                 page.wait_for_selector("video", timeout=5000)
                 page.click("video")
@@ -129,7 +134,7 @@ def update_links(channel, source_link):
                 except:
                     print("⚠️ No video interaction possible")
 
-            # ⏳ Изчакваме 10 секунди, за да хванем всички мрежови заявки
+            # ⏱ Изчакваме 10 секунди за заявки
             page.wait_for_timeout(10000)
 
             browser.close()
