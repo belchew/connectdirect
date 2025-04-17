@@ -91,7 +91,7 @@ channel_mapping = {
 def update_links(channel, source_link):
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)  # Може да е False, ако искаш да виждаш браузъра
+            browser = p.chromium.launch(headless=True)  # Винаги headless за по-бързо изпълнение
             context = browser.new_context()
             page = context.new_page()
 
@@ -107,22 +107,11 @@ def update_links(channel, source_link):
 
             page.on("response", handle_response)
 
-            # Зареждаме страницата
-            page.goto(source_link, timeout=60000)
+            # Зареждаме страницата и изчакваме съответната заявка
+            page.goto(source_link, timeout=30000)  # По-бързо време за изчакване за зареждане на сайта
             
-            # Изчакваме да зареди страница (период на изчакване може да се коригира)
-            page.wait_for_timeout(8000)  # изчакай JS да зареди
-
-            # Пробваме да кликнем върху плейъра, ако има такъв бутон
-            try:
-                play_button = page.locator('button[aria-label="Play"]')  # Пример: ще трябва да се адаптира за твоя сайт
-                play_button.click()
-                print(f"✅ Clicked play button for {channel[:40]}...")
-            except Exception as e:
-                print(f"⚠️ Couldn't find play button for {channel[:40]}: {e}")
-
-            # Изчакваме да се стартира видеото (и заявката за m3u8)
-            page.wait_for_timeout(10000)  # изчакай още малко, докато се стартира видеото
+            # Очакваме да се появи заявката за m3u8
+            page.wait_for_response(lambda response: ".m3u8" in response.url, timeout=15000)  # Изчакваме само за .m3u8 линк
 
             # Затваряме браузъра след като вземем линка
             browser.close()
@@ -133,11 +122,12 @@ def update_links(channel, source_link):
         print(f"🚨 Error fetching link for {channel[:40]}...: {e}")
         return None
 
-# ▶️ Основна логика
+# ▶️ Основна логика с паралелизация
 data_list = []
 m3u_links = []
 
-for channel, source_link in channel_mapping.items():
+# Използваме ThreadPoolExecutor за паралелизация
+def process_channel(channel, source_link):
     fetched_link = update_links(channel, source_link)
     data_list.append({
         'Channel': channel,
@@ -146,6 +136,10 @@ for channel, source_link in channel_mapping.items():
     })
     if fetched_link:
         m3u_links.append(f"{channel}\n{fetched_link}")
+
+# Стартиране на паралелизацията
+with ThreadPoolExecutor(max_workers=5) as executor:  # Ограничаваме броя на паралелните нишки
+    executor.map(lambda item: process_channel(item[0], item[1]), channel_mapping.items())
 
 # 📦 Запис на резултатите в .m3u файл
 file_path = 'sources.m3u'
@@ -157,6 +151,9 @@ with open(file_path, 'w', encoding='utf-8') as file:
 
 print(f"\n✅ File `{file_path}` successfully updated with new links.")
 
+# (по желание) CSV лог
+df = pd.DataFrame(data_list)
+df.to_csv('m3u_links_log.csv', index=False)
 # (по желание) CSV лог
 df = pd.DataFrame(data_list)
 df.to_csv('m3u_links_log.csv', index=False)
