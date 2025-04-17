@@ -91,32 +91,33 @@ channel_mapping = {
 # 🧠 Функция за извличане на m3u8 линк чрез Playwright
 def update_links(channel, source_link):
     try:
+        from playwright.sync_api import sync_playwright
+
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)  # Винаги headless за по-бързо изпълнение
+            browser = p.chromium.launch(headless=True)
             context = browser.new_context()
             page = context.new_page()
 
             m3u8_link = None
 
-            # 👉 Хващаме мрежови заявки
+            # Мрежови хендлър – засича .m3u8 линкове в отговорите
             def handle_response(response):
                 url = response.url
                 if ".m3u8" in url:
                     nonlocal m3u8_link
                     m3u8_link = url
-                    print(f"✅ Found m3u8 in network for {channel[:40]}...: {url}")
+                    print(f"✅ Found m3u8 for {channel[:40]}...: {url}")
 
             page.on("response", handle_response)
 
-            # Зареждаме страницата и изчакваме съответната заявка
-            page.goto(source_link, timeout=30000)  # По-бързо време за изчакване за зареждане на сайта
-            
-            # Очакваме да се появи заявката за m3u8
-            page.wait_for_response(lambda response: ".m3u8" in response.url, timeout=15000)  # Изчакваме само за .m3u8 линк
+            # Зареждаме страницата
+            print(f"🌐 Visiting: {source_link}")
+            page.goto(source_link, timeout=30000)
 
-            # Затваряме браузъра след като вземем линка
+            # Изчакваме няколко секунди, за да се хванат всички заявки
+            page.wait_for_timeout(5000)  # 5 секунди (може да се намали/увеличи)
+
             browser.close()
-
             return m3u8_link
 
     except Exception as e:
