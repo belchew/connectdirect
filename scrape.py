@@ -92,18 +92,17 @@ channel_mapping = {
 def update_links(channel, source_link):
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)  # Смени на False ако искаш да виждаш прозореца
+            browser = p.chromium.launch(headless=True)
             context = browser.new_context()
             page = context.new_page()
 
             m3u8_link = None
 
-            # Хващаме всички отговори (за диагностика)
             def handle_response(response):
+                nonlocal m3u8_link
                 url = response.url
                 print(f"📡 Response: {url}")
                 if ".m3u8" in url and not m3u8_link:
-                    nonlocal m3u8_link
                     m3u8_link = url
                     print(f"✅ Found m3u8 for {channel[:40]}...: {url}")
 
