@@ -88,34 +88,44 @@ channel_mapping = {
     # Add more channels as needed
 }
 
-# 🧠 Функция за извличане на m3u8 линк чрез Playwright
+# 📡 Извличане на m3u8 линк
 def update_links(channel, source_link):
     try:
-        from playwright.sync_api import sync_playwright
-
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=True)  # Смени на False ако искаш да виждаш прозореца
             context = browser.new_context()
             page = context.new_page()
 
             m3u8_link = None
 
-            # Мрежови хендлър – засича .m3u8 линкове в отговорите
+            # Хващаме всички отговори (за диагностика)
             def handle_response(response):
                 url = response.url
-                if ".m3u8" in url:
+                print(f"📡 Response: {url}")
+                if ".m3u8" in url and not m3u8_link:
                     nonlocal m3u8_link
                     m3u8_link = url
                     print(f"✅ Found m3u8 for {channel[:40]}...: {url}")
 
             page.on("response", handle_response)
 
-            # Зареждаме страницата
+            # Отваряме страницата
             print(f"🌐 Visiting: {source_link}")
             page.goto(source_link, timeout=30000)
 
-            # Изчакваме няколко секунди, за да се хванат всички заявки
-            page.wait_for_timeout(5000)  # 5 секунди (може да се намали/увеличи)
+            # Опитваме се да кликнем по видео плеъра (ако има)
+            try:
+                page.click("video", timeout=5000)
+                print("🎬 Clicked on <video> to trigger playback")
+            except:
+                try:
+                    page.keyboard.press("Space")
+                    print("🎬 Pressed Space to start video")
+                except:
+                    print("⚠️ No playable element found")
+
+            # Изчакваме 5 секунди да се появи заявката
+            page.wait_for_timeout(5000)
 
             browser.close()
             return m3u8_link
@@ -124,38 +134,33 @@ def update_links(channel, source_link):
         print(f"🚨 Error fetching link for {channel[:40]}...: {e}")
         return None
 
-# ▶️ Основна логика с паралелизация
+# 📦 Обработка и запис
 data_list = []
 m3u_links = []
 
-# Използваме ThreadPoolExecutor за паралелизация
 def process_channel(channel, source_link):
-    fetched_link = update_links(channel, source_link)
+    link = update_links(channel, source_link)
     data_list.append({
         'Channel': channel,
         'SourceLink': source_link,
-        'LinkToUpdate': fetched_link
+        'LinkToUpdate': link
     })
-    if fetched_link:
-        m3u_links.append(f"{channel}\n{fetched_link}")
+    if link:
+        m3u_links.append(f"{channel}\n{link}")
 
-# Стартиране на паралелизацията
-with ThreadPoolExecutor(max_workers=5) as executor:  # Ограничаваме броя на паралелните нишки
+# 🚀 Стартираме паралелно извличане
+with ThreadPoolExecutor(max_workers=3) as executor:
     executor.map(lambda item: process_channel(item[0], item[1]), channel_mapping.items())
 
-# 📦 Запис на резултатите в .m3u файл
+# 📝 Записваме .m3u файл
 file_path = 'sources.m3u'
-
 with open(file_path, 'w', encoding='utf-8') as file:
     file.write('#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"\n')
     for link in m3u_links:
         file.write(link + '\n')
 
-print(f"\n✅ File `{file_path}` successfully updated with new links.")
+# 🗃️ CSV лог за дебъг
+df = pd.DataFrame(data_list)
+df.to_csv('m3u_links_log.csv', index=False)
 
-# (по желание) CSV лог
-df = pd.DataFrame(data_list)
-df.to_csv('m3u_links_log.csv', index=False)
-# (по желание) CSV лог
-df = pd.DataFrame(data_list)
-df.to_csv('m3u_links_log.csv', index=False)
+print(f"\n✅ Готово! Записахме {len(m3u_links)} линка в {file_path} и лог в m3u_links_log.csv")
