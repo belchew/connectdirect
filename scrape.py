@@ -88,8 +88,18 @@ channel_mapping = {
 
 # Creating function to m3u8 sniffer
 def update_links(channel, source_link):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/91.0.4472.124 Safari/537.36'
+    }
+
     with requests.Session() as session:
-        response = session.get(source_link)
+        try:
+            response = session.get(source_link, headers=headers, timeout=10)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed for {channel}: {e}")
+            return None
+
         match = re.search(r'https://[^\s"]+\.m3u8(?:\?[^\s"]*)?', response.text)
         if match:
             m3u_link = match.group(0)
