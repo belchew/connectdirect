@@ -91,7 +91,7 @@ channel_mapping = {
 def update_links(channel, source_link):
     try:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=True)  # Може да е False, ако искаш да виждаш браузъра
             context = browser.new_context()
             page = context.new_page()
 
@@ -109,9 +109,24 @@ def update_links(channel, source_link):
 
             # Зареждаме страницата
             page.goto(source_link, timeout=60000)
+            
+            # Изчакваме да зареди страница (период на изчакване може да се коригира)
             page.wait_for_timeout(8000)  # изчакай JS да зареди
 
+            # Пробваме да кликнем върху плейъра, ако има такъв бутон
+            try:
+                play_button = page.locator('button[aria-label="Play"]')  # Пример: ще трябва да се адаптира за твоя сайт
+                play_button.click()
+                print(f"✅ Clicked play button for {channel[:40]}...")
+            except Exception as e:
+                print(f"⚠️ Couldn't find play button for {channel[:40]}: {e}")
+
+            # Изчакваме да се стартира видеото (и заявката за m3u8)
+            page.wait_for_timeout(10000)  # изчакай още малко, докато се стартира видеото
+
+            # Затваряме браузъра след като вземем линка
             browser.close()
+
             return m3u8_link
 
     except Exception as e:
