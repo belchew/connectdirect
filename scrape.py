@@ -92,20 +92,28 @@ def update_links(channel, source_link):
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
-            page = browser.new_page()
-            page.goto(source_link, timeout=60000)
-            page.wait_for_timeout(5000)  # изчакай JavaScript
-            content = page.content()
-            browser.close()
+            context = browser.new_context()
+            page = context.new_page()
 
-            match = re.search(r'https://[^\s"]+\.m3u8(?:\?[^\s"]*)?', content)
-            if match:
-                m3u_link = match.group(0)
-                print(f"✅ Fetched m3u link for {channel[:40]}...: {m3u_link}")
-                return m3u_link
-            else:
-                print(f"❌ No m3u link found for {channel[:40]}...")
-                return None
+            m3u8_link = None
+
+            # 👉 Хващаме мрежови заявки
+            def handle_response(response):
+                url = response.url
+                if ".m3u8" in url:
+                    nonlocal m3u8_link
+                    m3u8_link = url
+                    print(f"✅ Found m3u8 in network for {channel[:40]}...: {url}")
+
+            page.on("response", handle_response)
+
+            # Зареждаме страницата
+            page.goto(source_link, timeout=60000)
+            page.wait_for_timeout(8000)  # изчакай JS да зареди
+
+            browser.close()
+            return m3u8_link
+
     except Exception as e:
         print(f"🚨 Error fetching link for {channel[:40]}...: {e}")
         return None
@@ -137,5 +145,3 @@ print(f"\n✅ File `{file_path}` successfully updated with new links.")
 # (по желание) CSV лог
 df = pd.DataFrame(data_list)
 df.to_csv('m3u_links_log.csv', index=False)
-
-print(f"File {file_path} successfully updated with new links.")
