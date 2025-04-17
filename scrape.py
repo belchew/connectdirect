@@ -90,6 +90,7 @@ channel_mapping = {
 
 def update_links(channel, source_link):
     try:
+        from urllib.parse import urljoin
         from playwright.sync_api import sync_playwright
 
         with sync_playwright() as p:
@@ -98,31 +99,31 @@ def update_links(channel, source_link):
             page = context.new_page()
 
             m3u8_link = None
+            ts_link = None
 
-            # 👉 Функция за хващане на m3u8 линкове
             def handle_response(response):
-                nonlocal m3u8_link
+                nonlocal m3u8_link, ts_link
                 url = response.url
                 print(f"📡 Response: {url}")
+
                 if ".m3u8" in url and not m3u8_link:
                     m3u8_link = url
                     print(f"✅ Found m3u8 for {channel[:40]}...: {url}")
 
+                elif ".ts" in url and not ts_link:
+                    ts_link = url
+                    print(f"🧪 Found .ts segment for {channel[:40]}...: {url}")
+
             print(f"🌐 Visiting: {source_link}")
             page.goto(source_link, timeout=30000)
 
-            # 🎯 Закачаме handler за отговори в основната страница
             page.on("response", handle_response)
-
-            # 🔍 Закачаме handler и към всеки frame
             for frame in page.frames:
                 try:
                     frame.on("response", handle_response)
-                    print(f"🧩 Listening in frame: {frame.url}")
-                except Exception as frame_err:
-                    print(f"⚠️ Frame error: {frame_err}")
+                except:
+                    pass
 
-            # ⏳ Изчакваме за <video> елемент
             try:
                 page.wait_for_selector("video", timeout=5000)
                 page.click("video")
@@ -132,12 +133,19 @@ def update_links(channel, source_link):
                     page.keyboard.press("Space")
                     print("🎬 Pressed Space to start video")
                 except:
-                    print("⚠️ No video interaction possible")
+                    print("⚠️ No video interaction")
 
-            # ⏱ Изчакваме 10 секунди за заявки
             page.wait_for_timeout(10000)
-
             browser.close()
+
+            # Ако не е открит .m3u8, но имаме .ts линк, правим опит да съставим базов плейлист линк
+            if not m3u8_link and ts_link:
+                # Примерно преобразуване: премахваме след segment, и добавяме playlist.m3u8
+                base_url = ts_link.rsplit('/', 1)[0]
+                possible_m3u8 = urljoin(base_url + "/", "playlist.m3u8")
+                print(f"🧩 Reconstructed m3u8 guess from .ts: {possible_m3u8}")
+                return possible_m3u8
+
             return m3u8_link
 
     except Exception as e:
