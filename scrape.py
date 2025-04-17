@@ -91,13 +91,16 @@ channel_mapping = {
 # 📡 Извличане на m3u8 линк
 def update_links(channel, source_link):
     try:
+        from playwright.sync_api import sync_playwright
+
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=True)  # Смени на False за визуално наблюдение
             context = browser.new_context()
             page = context.new_page()
 
             m3u8_link = None
 
+            # 👉 Функция, която ще прослушва отговорите за .m3u8
             def handle_response(response):
                 nonlocal m3u8_link
                 url = response.url
@@ -106,25 +109,28 @@ def update_links(channel, source_link):
                     m3u8_link = url
                     print(f"✅ Found m3u8 for {channel[:40]}...: {url}")
 
-            page.on("response", handle_response)
-
-            # Отваряме страницата
             print(f"🌐 Visiting: {source_link}")
             page.goto(source_link, timeout=30000)
 
-            # Опитваме се да кликнем по видео плеъра (ако има)
+            # 🎯 Закачаме прослушване на отговори за всички фреймове
+            page.on("response", handle_response)
+            for frame in page.frames:
+                frame.on("response", handle_response)
+
+            # ⏳ Изчакваме video елемент да се появи
             try:
-                page.click("video", timeout=5000)
-                print("🎬 Clicked on <video> to trigger playback")
+                page.wait_for_selector("video", timeout=5000)
+                page.click("video")
+                print("🎬 Clicked video element")
             except:
                 try:
                     page.keyboard.press("Space")
                     print("🎬 Pressed Space to start video")
                 except:
-                    print("⚠️ No playable element found")
+                    print("⚠️ No video interaction possible")
 
-            # Изчакваме 5 секунди да се появи заявката
-            page.wait_for_timeout(5000)
+            # ⏳ Изчакваме 10 секунди, за да хванем всички мрежови заявки
+            page.wait_for_timeout(10000)
 
             browser.close()
             return m3u8_link
