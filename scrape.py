@@ -4,8 +4,6 @@ import re
 import pandas as pd
 import requests
 import subprocess
-from concurrent.futures import ThreadPoolExecutor
-from playwright.sync_api import sync_playwright
 
 # Channel mapping
 channel_mapping = {
@@ -88,97 +86,38 @@ channel_mapping = {
     # Add more channels as needed
 }
 
+# Creating function to m3u8 sniffer
 def update_links(channel, source_link):
-    try:
-        from urllib.parse import urljoin
-        from playwright.sync_api import sync_playwright
+    with requests.Session() as session:
+        response = session.get(source_link)
+        match = re.search(r'https://[^\s"]+\.m3u8(?:\?[^\s"]*)?', response.text)
+        if match:
+            m3u_link = match.group(0)
+            print(f"Fetched m3u link for {channel}: {m3u_link}")
+            return m3u_link
+        else:
+            print(f"No m3u link found for {channel}")
+            return None
 
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
-            context = browser.new_context()
-            page = context.new_page()
-
-            m3u8_link = None
-            ts_link = None
-
-            def handle_response(response):
-                nonlocal m3u8_link, ts_link
-                url = response.url
-                print(f"📡 Response: {url}")
-
-                if ".m3u8" in url and not m3u8_link:
-                    m3u8_link = url
-                    print(f"✅ Found m3u8 for {channel[:40]}...: {url}")
-
-                elif ".ts" in url and not ts_link:
-                    ts_link = url
-                    print(f"🧪 Found .ts segment for {channel[:40]}...: {url}")
-
-            print(f"🌐 Visiting: {source_link}")
-            page.goto(source_link, timeout=30000)
-
-            page.on("response", handle_response)
-            for frame in page.frames:
-                try:
-                    frame.on("response", handle_response)
-                except:
-                    pass
-
-            try:
-                page.wait_for_selector("video", timeout=5000)
-                page.click("video")
-                print("🎬 Clicked video element")
-            except:
-                try:
-                    page.keyboard.press("Space")
-                    print("🎬 Pressed Space to start video")
-                except:
-                    print("⚠️ No video interaction")
-
-            page.wait_for_timeout(10000)
-            browser.close()
-
-            # Ако не е открит .m3u8, но имаме .ts линк, правим опит да съставим базов плейлист линк
-            if not m3u8_link and ts_link:
-                # Примерно преобразуване: премахваме след segment, и добавяме playlist.m3u8
-                base_url = ts_link.rsplit('/', 1)[0]
-                possible_m3u8 = urljoin(base_url + "/", "playlist.m3u8")
-                print(f"🧩 Reconstructed m3u8 guess from .ts: {possible_m3u8}")
-                return possible_m3u8
-
-            return m3u8_link
-
-    except Exception as e:
-        print(f"🚨 Error fetching link for {channel[:40]}...: {e}")
-        return None
-
-# 📦 Обработка и запис
+# Use function to sniff channels links in mapping
 data_list = []
 m3u_links = []
 
-def process_channel(channel, source_link):
-    link = update_links(channel, source_link)
-    data_list.append({
-        'Channel': channel,
-        'SourceLink': source_link,
-        'LinkToUpdate': link
-    })
-    if link:
-        m3u_links.append(f"{channel}\n{link}")
+for channel, source_link in channel_mapping.items():
+    fetched_link = update_links(channel, source_link)
+    data_list.append({'Channel': channel, 'SourceLink': source_link, 'LinkToUpdate': fetched_link})
+    if fetched_link:  # If link is fetched, we add it to the m3u_links list
+        m3u_links.append(f"{channel}\n{fetched_link}")
 
-# 🚀 Стартираме паралелно извличане
-with ThreadPoolExecutor(max_workers=3) as executor:
-    executor.map(lambda item: process_channel(item[0], item[1]), channel_mapping.items())
+channel_df = pd.DataFrame(data_list)
 
-# 📝 Записваме .m3u файл
+# Write the fetched m3u links into the sources.m3u file
 file_path = 'sources.m3u'
-with open(file_path, 'w', encoding='utf-8') as file:
-    file.write('#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"\n')
+
+# Clear the file before writing new links
+with open(file_path, 'w') as file:  # 'w' mode will overwrite the file (clear it first)
+    file.write('#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"\n')  # Добавяме на първия ред #EXTM3U
     for link in m3u_links:
         file.write(link + '\n')
 
-# 🗃️ CSV лог за дебъг
-df = pd.DataFrame(data_list)
-df.to_csv('m3u_links_log.csv', index=False)
-
-print(f"\n✅ Готово! Записахме {len(m3u_links)} линка в {file_path} и лог в m3u_links_log.csv")
+print(f"File {file_path} successfully updated with new links.")
