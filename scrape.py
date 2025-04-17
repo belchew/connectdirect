@@ -4,6 +4,7 @@ import re
 import pandas as pd
 import requests
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 from playwright.sync_api import sync_playwright
 
 # Channel mapping
