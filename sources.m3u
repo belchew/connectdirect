@@ -1,5 +1,5 @@
 #EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"
 #EXTINF:-1 tvg-name="БНТ 1" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-1-hd.png" group-title="ЕФИРНИ" , BNT 1 HD
-https://cdn5.glebul.com/hls/hd-bnt-1-hd/index.m3u8?e=1747064864&hash=AbQXbXi4G-5TcdHLOocnMw
+https://cdn4.glebul.com/hls/hd-bnt-1-hd/index.m3u8?e=1747069439&hash=xW8zi42gqCpqrz1jOfpfaw
 #EXTINF:-1 tvg-name="bTV" tvg-logo="https://www.glebul.com/images/tv-logo/btv-hd.png" group-title="ЕФИРНИ" , bTV HD
-https://cdn11.glebul.com/dvr/hd-btv-hd/tracks-v1a1/rewind-86940.m3u8?e=1747064864&hash=AbQXbXi4G-5TcdHLOocnMw
+https://cdn3.glebul.com/hls/hd-btv-hd/index.m3u8?e=1747069439&hash=xW8zi42gqCpqrz1jOfpfaw
