@@ -80,17 +80,8 @@ channel_mapping = {
             '#EXTINF:-1 tvg-name="Epic Drama" tvg-logo="https://www.glebul.com/images/tv-logo/epic-drama-hd.png" group-title="Филмови" , Epic Drama': 'https://www.seir-sanduk.com/?id=hd-epic-drama-hd&pass=zzJSKjekaskdjfas3a4af55&hash=',
             '#EXTINF:-1 tvg-name="TLC" tvg-logo="https://www.glebul.com/images/tv-logo/tlc.png" group-title="Други" , TLC HD': 'https://www.seir-sanduk.com/?id=tlc&pass=zzJSKjekaskdjfas3a4af55&hash=',
             '#EXTINF:-1 tvg-name="24 Kitchen" tvg-logo="https://www.glebul.com/images/tv-logo/24-kitchen-hd.png" group-title="Други" , 24 Kitchen HD': 'https://www.seir-sanduk.com/?id=hd-24-kitchen-hd&pass=zzJSKjekaskdjfas3a4af55&hash=',
-            '#EXTINF:-1 tvg-name="Travel Channel" tvg-logo="https://www.glebul.com/images/tv-logo/travel-channel-hd.png" group-title="Научни" , Travel Channel': 'https://www.seir-sanduk.com/?id=hd-travel-channel-hd&pass=zzJSKjekaskdjfas3a4af55&hash=', 
-            "https://cdn2.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
-            "https://cdn3.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
-            "https://cdn4.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
-            "https://cdn5.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
-            "https://cdn6.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
-            "https://cdn7.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
-            "https://cdn8.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
-            "https://cdn9.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
-            #"index.m3u8?": 'tracks-v1a1/rewind-86940.m3u8?'
-            "index.m3u8?": 'tracks-v1a1/index.m3u8?'
+            '#EXTINF:-1 tvg-name="Travel Channel" tvg-logo="https://www.glebul.com/images/tv-logo/travel-channel-hd.png" group-title="Научни" , Travel Channel': 'https://www.seir-sanduk.com/?id=hd-travel-channel-hd&pass=zzJSKjekaskdjfas3a4af55&hash=' 
+        
             
 
     # Add more channels as needed
