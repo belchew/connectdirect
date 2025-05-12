@@ -99,35 +99,89 @@ channel_mapping = {
 # Creating function to m3u8 sniffer
 def update_links(channel, source_link):
     with requests.Session() as session:
-        response = session.get(source_link)
+        try:
+            response = session.get(source_link, timeout=10)
+            response.raise_for_status()
+        except Exception as e:
+            print(f"[ГРЕШКА] Неуспешен достъп до {source_link}: {e}")
+            return None
+
         match = re.search(r'https://[^\s"]+\.m3u8(?:\?[^\s"]*)?', response.text)
         if match:
             m3u_link = match.group(0)
-            print(f"Fetched m3u link for {channel}: {m3u_link}")
+            print(f"[✓] Намерен линк за {channel}: {m3u_link}")
             return m3u_link
         else:
-            print(f"No m3u link found for {channel}")
+            print(f"[!] Не е намерен m3u8 линк за {channel}")
             return None
 
-# Use function to sniff channels links in mapping
-data_list = []
-m3u_links = []
+# 2. Замяна или добавяне на канал в source.m3u
+def replace_channel_link(file_path, channel, new_link):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+    except FileNotFoundError:
+        lines = ['#EXTM3U\n']
 
+    updated_lines = []
+    skip_next = False
+    replaced = False
+
+    for line in lines:
+        if skip_next:
+            skip_next = False
+            continue
+
+        if line.strip() == channel:
+            updated_lines.append(f"{channel}\n")
+            updated_lines.append(f"{new_link}\n")
+            skip_next = True
+            replaced = True
+        else:
+            updated_lines.append(line)
+
+    if not replaced:
+        updated_lines.append(f"{channel}\n{new_link}\n")
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.writelines(updated_lines)
+
+# 3. Множествена замяна на части от линковете
+def replace_multiple_substrings_in_links(file_path, replacements):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+
+    updated_lines = []
+    for line in lines:
+        if line.startswith("http"):
+            for old, new in replacements.items():
+                line = line.replace(old, new)
+        updated_lines.append(line)
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.writelines(updated_lines)
+
+file_path = 'source.m3u'
+
+# Снифинг и обновяване на файла
 for channel, source_link in channel_mapping.items():
     fetched_link = update_links(channel, source_link)
-    data_list.append({'Channel': channel, 'SourceLink': source_link, 'LinkToUpdate': fetched_link})
-    if fetched_link:  # If link is fetched, we add it to the m3u_links list
-        m3u_links.append(f"{channel}\n{fetched_link}")
+    if fetched_link:
+        replace_channel_link(file_path, channel, fetched_link)
 
-channel_df = pd.DataFrame(data_list)
+# Заменяме текстови части от линковете
+replacements = {
+     "https://cdn2.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+            "https://cdn3.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+            "https://cdn4.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+            "https://cdn5.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+            "https://cdn6.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+            "https://cdn7.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+            "https://cdn8.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+            "https://cdn9.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+            #"index.m3u8?": 'tracks-v1a1/rewind-86940.m3u8?'
+            "index.m3u8?": 'tracks-v1a1/index.m3u8?'
+}
+replace_multiple_substrings_in_links(file_path, replacements)
 
-# Write the fetched m3u links into the sources.m3u file
-file_path = 'sources.m3u'
-
-# Clear the file before writing new links
-with open(file_path, 'w') as file:  # 'w' mode will overwrite the file (clear it first)
-    file.write('#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"\n')  # Добавяме на първия ред #EXTM3U
-    for link in m3u_links:
-        file.write(link + '\n')
-
-print(f"File {file_path} successfully updated with new links.")
+print(f"\n✅ Всички канали са обновени и линковете са редактирани в {file_path}.")
