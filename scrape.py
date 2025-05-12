@@ -80,80 +80,8 @@ channel_mapping = {
             '#EXTINF:-1 tvg-name="Epic Drama" tvg-logo="https://www.glebul.com/images/tv-logo/epic-drama-hd.png" group-title="Филмови" , Epic Drama': 'https://www.seir-sanduk.com/?id=hd-epic-drama-hd&pass=zzJSKjekaskdjfas3a4af55&hash=',
             '#EXTINF:-1 tvg-name="TLC" tvg-logo="https://www.glebul.com/images/tv-logo/tlc.png" group-title="Други" , TLC HD': 'https://www.seir-sanduk.com/?id=tlc&pass=zzJSKjekaskdjfas3a4af55&hash=',
             '#EXTINF:-1 tvg-name="24 Kitchen" tvg-logo="https://www.glebul.com/images/tv-logo/24-kitchen-hd.png" group-title="Други" , 24 Kitchen HD': 'https://www.seir-sanduk.com/?id=hd-24-kitchen-hd&pass=zzJSKjekaskdjfas3a4af55&hash=',
-            '#EXTINF:-1 tvg-name="Travel Channel" tvg-logo="https://www.glebul.com/images/tv-logo/travel-channel-hd.png" group-title="Научни" , Travel Channel': 'https://www.seir-sanduk.com/?id=hd-travel-channel-hd&pass=zzJSKjekaskdjfas3a4af55&hash='
-
-            
-
-    # Add more channels as needed
-}
-
-def update_links(channel, source_link):
-    with requests.Session() as session:
-        try:
-            response = session.get(source_link, timeout=10)
-            response.raise_for_status()
-        except Exception as e:
-            print(f"[ГРЕШКА] {channel}: неуспешен достъп до {source_link}: {e}")
-            return None
-
-        match = re.search(r'https://[^\s"]+\.m3u8(?:\?[^\s"]*)?', response.text)
-        if match:
-            m3u_link = match.group(0)
-            print(f"[✓] {channel}: {m3u_link}")
-            return m3u_link
-        else:
-            print(f"[!] {channel}: не е намерен m3u8 линк.")
-            return None
-
-def load_existing_entries(file_path):
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            lines = f.readlines()
-    except FileNotFoundError:
-        lines = ['#EXTM3U\n']
-
-    channels = {}
-    i = 0
-    while i < len(lines):
-        line = lines[i].strip()
-        if line and not line.startswith('#') and i + 1 < len(lines):
-            channel = line
-            url = lines[i + 1].strip()
-            channels[channel] = url
-            i += 2
-        else:
-            i += 1
-    return channels
-
-def save_entries(file_path, channel_dict):
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.write("#EXTM3U\n")
-        for channel, url in channel_dict.items():
-            f.write(f"{channel}\n{url}\n")
-
-def apply_replacements(channel_dict, replacements):
-    for channel in channel_dict:
-        link = channel_dict[channel]
-        for old, new in replacements.items():
-            link = link.replace(old, new)
-        channel_dict[channel] = link
-
-# === Основен скрипт ===
-
-file_path = 'sources.m3u'
-
-# 1. Зареди текущите записи
-channel_data = load_existing_entries(file_path)
-
-# 2. Обнови линкове чрез снифинг
-for channel, source in channel_mapping.items():
-    new_link = update_links(channel, source)
-    if new_link:
-        channel_data[channel] = new_link  # добави или замени
-
-# 3. Прилагаме замени в линковете
-replacements = {
-      "https://cdn2.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+            '#EXTINF:-1 tvg-name="Travel Channel" tvg-logo="https://www.glebul.com/images/tv-logo/travel-channel-hd.png" group-title="Научни" , Travel Channel': 'https://www.seir-sanduk.com/?id=hd-travel-channel-hd&pass=zzJSKjekaskdjfas3a4af55&hash=', 
+            "https://cdn2.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
             "https://cdn3.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
             "https://cdn4.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
             "https://cdn5.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
@@ -163,11 +91,43 @@ replacements = {
             "https://cdn9.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
             #"index.m3u8?": 'tracks-v1a1/rewind-86940.m3u8?'
             "index.m3u8?": 'tracks-v1a1/index.m3u8?'
+            
+
+    # Add more channels as needed
 }
-apply_replacements(channel_data, replacements)
 
-# 4. Записваме обратно във файла
-save_entries(file_path, channel_data)
+# Creating function to m3u8 sniffer
+def update_links(channel, source_link):
+    with requests.Session() as session:
+        response = session.get(source_link)
+        match = re.search(r'https://[^\s"]+\.m3u8(?:\?[^\s"]*)?', response.text)
+        if match:
+            m3u_link = match.group(0)
+            print(f"Fetched m3u link for {channel}: {m3u_link}")
+            return m3u_link
+        else:
+            print(f"No m3u link found for {channel}")
+            return None
 
-print(f"\n✅ Файлът {file_path} е успешно обновен.")
+# Use function to sniff channels links in mapping
+data_list = []
+m3u_links = []
 
+for channel, source_link in channel_mapping.items():
+    fetched_link = update_links(channel, source_link)
+    data_list.append({'Channel': channel, 'SourceLink': source_link, 'LinkToUpdate': fetched_link})
+    if fetched_link:  # If link is fetched, we add it to the m3u_links list
+        m3u_links.append(f"{channel}\n{fetched_link}")
+
+channel_df = pd.DataFrame(data_list)
+
+# Write the fetched m3u links into the sources.m3u file
+file_path = 'sources.m3u'
+
+# Clear the file before writing new links
+with open(file_path, 'w') as file:  # 'w' mode will overwrite the file (clear it first)
+    file.write('#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"\n')  # Добавяме на първия ред #EXTM3U
+    for link in m3u_links:
+        file.write(link + '\n')
+
+print(f"File {file_path} successfully updated with new links.")
