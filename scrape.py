@@ -87,82 +87,73 @@ channel_mapping = {
     # Add more channels as needed
 }
 
-# Creating function to m3u8 sniffer
 def update_links(channel, source_link):
     with requests.Session() as session:
         try:
             response = session.get(source_link, timeout=10)
             response.raise_for_status()
         except Exception as e:
-            print(f"[ГРЕШКА] Неуспешен достъп до {source_link}: {e}")
+            print(f"[ГРЕШКА] {channel}: неуспешен достъп до {source_link}: {e}")
             return None
 
         match = re.search(r'https://[^\s"]+\.m3u8(?:\?[^\s"]*)?', response.text)
         if match:
             m3u_link = match.group(0)
-            print(f"[✓] Намерен линк за {channel}: {m3u_link}")
+            print(f"[✓] {channel}: {m3u_link}")
             return m3u_link
         else:
-            print(f"[!] Не е намерен m3u8 линк за {channel}")
+            print(f"[!] {channel}: не е намерен m3u8 линк.")
             return None
 
-# 2. Замяна или добавяне на канал в source.m3u
-def replace_channel_link(file_path, channel, new_link):
+def load_existing_entries(file_path):
     try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            lines = file.readlines()
+        with open(file_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
     except FileNotFoundError:
         lines = ['#EXTM3U\n']
 
-    updated_lines = []
-    skip_next = False
-    replaced = False
-
-    for line in lines:
-        if skip_next:
-            skip_next = False
-            continue
-
-        if line.strip() == channel:
-            updated_lines.append(f"{channel}\n")
-            updated_lines.append(f"{new_link}\n")
-            skip_next = True
-            replaced = True
+    channels = {}
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        if line and not line.startswith('#') and i + 1 < len(lines):
+            channel = line
+            url = lines[i + 1].strip()
+            channels[channel] = url
+            i += 2
         else:
-            updated_lines.append(line)
+            i += 1
+    return channels
 
-    if not replaced:
-        updated_lines.append(f"{channel}\n{new_link}\n")
+def save_entries(file_path, channel_dict):
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write("#EXTM3U\n")
+        for channel, url in channel_dict.items():
+            f.write(f"{channel}\n{url}\n")
 
-    with open(file_path, 'w', encoding='utf-8') as file:
-        file.writelines(updated_lines)
+def apply_replacements(channel_dict, replacements):
+    for channel in channel_dict:
+        link = channel_dict[channel]
+        for old, new in replacements.items():
+            link = link.replace(old, new)
+        channel_dict[channel] = link
 
-# 3. Множествена замяна на части от линковете
-def replace_multiple_substrings_in_links(file_path, replacements):
-    with open(file_path, 'r', encoding='utf-8') as file:
-        lines = file.readlines()
+# === Основен скрипт ===
 
-    updated_lines = []
-    for line in lines:
-        if line.startswith("http"):
-            for old, new in replacements.items():
-                line = line.replace(old, new)
-        updated_lines.append(line)
+file_path = 'sources.m3u'
 
-    with open(file_path, 'w', encoding='utf-8') as file:
-        file.writelines(updated_lines)
+# 1. Зареди текущите записи
+channel_data = load_existing_entries(file_path)
 
-file_path = 'source.m3u'
+# 2. Обнови линкове чрез снифинг
+for channel, source in channel_mapping.items():
+    new_link = update_links(channel, source)
+    if new_link:
+        channel_data[channel] = new_link  # добави или замени
 
-# Снифинг и обновяване на файла
-for channel, source_link in channel_mapping.items():
-    fetched_link = update_links(channel, source_link)
-    if fetched_link:
-        replace_channel_link(file_path, channel, fetched_link)
-
-# Заменяме текстови части от линковете
+# 3. Прилагаме замени в линковете
 replacements = {
-     "https://cdn2.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
+      "https://cdn2.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
             "https://cdn3.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
             "https://cdn4.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
             "https://cdn5.glebul.com/hls/": 'https://cdn11.glebul.com/dvr/',
@@ -173,6 +164,10 @@ replacements = {
             #"index.m3u8?": 'tracks-v1a1/rewind-86940.m3u8?'
             "index.m3u8?": 'tracks-v1a1/index.m3u8?'
 }
-replace_multiple_substrings_in_links(file_path, replacements)
+apply_replacements(channel_data, replacements)
 
-print(f"\n✅ Всички канали са обновени и линковете са редактирани в {file_path}.")
+# 4. Записваме обратно във файла
+save_entries(file_path, channel_data)
+
+print(f"\n✅ Файлът {file_path} е успешно обновен.")
+
