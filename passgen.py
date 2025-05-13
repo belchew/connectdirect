@@ -2,8 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 
 # === Конфигурация ===
-LOGIN_URL = 'https://www.otustanausta.com/ucp.php?mode=login&redirect=index.php'
-SEARCH_URL = 'https://www.otustanausta.com/search.php?keywords='
+LOGIN_URL = 'https://www.otustanausta.com/ucp.php?mode=login&redirect=index.php'      # Заменете с истинския URL за логин
+SEARCH_URL = 'https://www.otustanausta.com/search.php?keywords='    # Заменете с URL-то за търсене
 USERNAME = 'itv'
 PASSWORD = 'P@r0la'
 SEARCH_WORD = 'pass'
@@ -27,9 +27,9 @@ if login_response.status_code != 200:
 
 print("✅ Успешен вход.")
 
-# === 4. Изпращаме заявка за търсене (примерно чрез GET) ===
+# === 4. Изпращаме заявка за търсене ===
 search_params = {
-    'q': SEARCH_WORD  # замени 'q' с правилното име на параметъра за търсене
+    'q': SEARCH_WORD  # заменете 'q' с правилното име на параметъра за търсене
 }
 search_response = session.get(SEARCH_URL, params=search_params)
 
@@ -37,14 +37,21 @@ if search_response.status_code != 200:
     print("❌ Търсенето се провали.")
     exit()
 
-# === 5. Извличаме резултата ===
+# === 5. Извличане на резултата от страницата ===
 soup = BeautifulSoup(search_response.text, 'html.parser')
-
-# Пример: взимаме текстовото съдържание
 text_result = soup.get_text()
 
-# === 6. Запис във файл ===
-with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-    f.write(text_result)
+# === 6. Намиране на "pass" и следващите 25 символа ===
+index = text_result.find("pass")
+if index != -1:
+    # Вземаме "pass" и следващите 25 символа
+    extracted_text = text_result[index:index+30]  # "pass" + 25 символа
+    print(f"✅ Намерено: {extracted_text}")
+    
+    # === 7. Записване в key.txt ===
+    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+        f.write(extracted_text)
 
-print(f"📁 Резултатът е записан в {OUTPUT_FILE}")
+    print(f"💾 Резултатът е записан в {OUTPUT_FILE}")
+else:
+    print("⚠️ Не беше намерено 'pass' в резултата.")
