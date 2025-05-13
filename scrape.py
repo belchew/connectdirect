@@ -116,7 +116,7 @@ channel_df = pd.DataFrame(data_list)
 file_path = 'sources.m3u'
 
 with open(file_path, 'w') as file:
-    file.write('#EXTM3U catchup="flussonic" url-tvg="https://"\n')  # Добавен \n за нов ред
+    file.write('#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"\n\n')  # Добавен \n за нов ред
     for link in m3u_links:
         file.write(link + '\n')
 
