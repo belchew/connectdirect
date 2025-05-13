@@ -87,7 +87,7 @@ channel_mapping = {
     # Add more channels as needed
 }
 
-# Creating function to m3u8 sniffer
+# Функция за намиране на m3u8 линкове
 def update_links(channel, source_link):
     with requests.Session() as session:
         response = session.get(source_link)
@@ -100,25 +100,37 @@ def update_links(channel, source_link):
             print(f"No m3u link found for {channel}")
             return None
 
-# Use function to sniff channels links in mapping
+# Събиране на линковете
 data_list = []
 m3u_links = []
 
 for channel, source_link in channel_mapping.items():
     fetched_link = update_links(channel, source_link)
     data_list.append({'Channel': channel, 'SourceLink': source_link, 'LinkToUpdate': fetched_link})
-    if fetched_link:  # If link is fetched, we add it to the m3u_links list
+    if fetched_link:
         m3u_links.append(f"{channel}\n{fetched_link}")
 
 channel_df = pd.DataFrame(data_list)
 
-# Write the fetched m3u links into the sources.m3u file
+# Запис във файла sources.m3u
 file_path = 'sources.m3u'
 
-# Clear the file before writing new links
-with open(file_path, 'w') as file:  # 'w' mode will overwrite the file (clear it first)
-    file.write('#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"\n')  # Добавяме на първия ред #EXTM3U
+with open(file_path, 'w') as file:
+    file.write('#EXTM3U catchup="flussonic" url-tvg="https://"\n')  # Добавен \n за нов ред
     for link in m3u_links:
         file.write(link + '\n')
 
-print(f"File {file_path} successfully updated with new links.")
+print(f"Файлът {file_path} беше обновен с новите линкове.")
+
+# 🔁 Замяна на .m3u8 с .mmpeg
+with open(file_path, 'r') as file:
+    content = file.read()
+
+# Замени разширението
+updated_content = content.replace('/hls', '/dvr')
+
+# Запиши отново файла с променените линкове
+with open(file_path, 'w') as file:
+    file.write(updated_content)
+
+print(f"Всички .m3u8 линкове бяха заменени с .mmpeg в {file_path}.")
