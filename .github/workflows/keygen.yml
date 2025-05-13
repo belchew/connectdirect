@@ -1,9 +1,9 @@
-name: Search and Save Result
+name: Search and Result
 
 on:
-  push:
-    branches:
-      - main  # или друга твоя основна клонка
+  workflow_dispatch:       # 👉 Ръчно стартиране
+ # schedule:                # 👉 Автоматично по график
+ #   - cron: '0 7 * * *'    # Всеки ден в 07:00 UTC (можеш да промениш)
 
 jobs:
   run-script:
