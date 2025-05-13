@@ -4,7 +4,7 @@ import re
 import pandas as pd
 import requests
 import subprocess
-
+from bs4 import BeautifulSoup
 
 # === Конфигурация ===
 SEARCH_URL = 'https://www.otustanausta.com/search.php'  # URL за търсене
