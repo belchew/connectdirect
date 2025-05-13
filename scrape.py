@@ -127,6 +127,7 @@ with open(file_path, 'r') as file:
     content = file.read()
 
 # Замени разширението
+updated_content = content
 updated_content = content.replace('https://cdn2.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/')
 updated_content = content.replace('https://cdn3.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/')
 updated_content = content.replace('https://cdn4.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/')
