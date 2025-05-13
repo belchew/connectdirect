@@ -2,8 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 
 # === Конфигурация ===
-SEARCH_URL = 'https://www.otustanausta.com/search.php?keywords=pass'  # Заменете с истинското URL за търсене
-SEARCH_WORD = 'pass'  # Търсим думата "pass"
+SEARCH_URL = 'https://www.otustanausta.com/search.php'  # URL за търсене
+SEARCH_WORD = 'pass'  # Търсена дума
 OUTPUT_FILE = 'key.txt'
 
 # === 1. Изпращаме заявка за търсене ===
@@ -22,7 +22,7 @@ soup = BeautifulSoup(search_response.text, 'html.parser')
 text_result = soup.get_text()
 
 # === 3. Намиране на "pass" и следващите 25 символа ===
-index = text_result.find("pass")
+index = text_result.find(SEARCH_WORD)
 if index != -1:
     # Вземаме "pass" и следващите 25 символа
     extracted_text = text_result[index:index+30]  # "pass" + 25 символа
@@ -35,4 +35,3 @@ if index != -1:
     print(f"💾 Резултатът е записан в {OUTPUT_FILE}")
 else:
     print("⚠️ Не беше намерено 'pass' в резултата.")
-    
