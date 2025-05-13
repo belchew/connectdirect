@@ -32,7 +32,7 @@ jobs:
 
       - name: Run the search script
         run: |
-          python search_script.py
+          python passgen.py
 
       - name: Commit key.txt
         run: |
