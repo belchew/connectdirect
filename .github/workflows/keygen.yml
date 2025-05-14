@@ -33,4 +33,4 @@ jobs:
         run: |
           git add key.txt
           git commit -m "Update key.txt with new data"
-          git push https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+          git push https://x-access-token:${{ secrets.NEW_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
