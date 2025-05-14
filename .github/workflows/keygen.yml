@@ -22,15 +22,15 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Run scraper script
-        run: python passgen.py  # Изпълнява скрипта
+        run: python scraper.py  # Изпълнява скрипта
 
       - name: Set Git user info
         run: |
           git config --global user.name "belchew"  # Твоето потребителско име в GitHub
           git config --global user.email "belchew@outlook.com"  # Твоят имейл в GitHub
 
-      - name: Commit and push key.txt to repository
+      - name: Commit and push result.txt to repository
         run: |
-          git add key.txt
-          git commit -m "Update key.txt with new data"
+          git add result.txt
+          git commit -m "Update result.txt with new data"
           git push https://x-access-token:${{ secrets.NEW_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
