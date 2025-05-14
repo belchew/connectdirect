@@ -2,8 +2,11 @@ name: Daily Scraper
 
 on:
   schedule:
-    - cron: "0 6 * * *"  # Всеки ден в 06:00 UTC
-  workflow_dispatch:  # Позволява ръчно стартиране
+    - cron: "*/30 * * * *"  # Всеки 30 минути
+  workflow_dispatch:         # Позволява ръчно стартиране
+
+permissions:
+  contents: write  # Нужно за комит и push
 
 jobs:
   run-scraper:
@@ -13,26 +16,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Git user
+        run: |
+          git config --global user.name "belchew"
+          git config --global user.email "belchew@outlook.com"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4
+        run: |
+          pip install requests beautifulsoup4
 
       - name: Run scraper script
-        run: python scraper.py
-
-      - name: Set Git identity
         run: |
-          git config --global user.name "belchew"
-          git config --global user.email "belchew@outlook.com"
+          python scraper.py
 
       - name: Commit and push result.txt
         env:
-          PAT: ${{ secrets.NEW_TOKEN }}
+          PAT: ${{ secrets.MY_GITHUB_TOKEN }}  # Използва твоя PAT от Secrets
         run: |
           git add result.txt
-          git commit -m "Update result.txt with new data" || echo "No changes to commit"
-          git push https://x-access-token:$PAT@github.com/${{ github.repository }}.git HEAD:main
+          git commit -m "Update result.txt via GitHub Actions" || echo "No changes to commit"
+          git push https://x-access-token:$PAT@github.com/${{ github.repository }} HEAD:main
