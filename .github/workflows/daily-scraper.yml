@@ -22,15 +22,17 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Run scraper script
-        run: python scraper.py  # Изпълнява скрипта
+        run: python scraper.py
 
-      - name: Set Git user info
+      - name: Set Git identity
         run: |
-          git config --global user.name "belchew"  # Твоето потребителско име в GitHub
-          git config --global user.email "belchew@outlook.com"  # Твоят имейл в GitHub
+          git config --global user.name "belchew"
+          git config --global user.email "belchew@outlook.com"
 
-      - name: Commit and push result.txt to repository
+      - name: Commit and push result.txt
+        env:
+          PAT: ${{ secrets.NEW_TOKEN }}
         run: |
           git add result.txt
-          git commit -m "Update result.txt with new data"
-          git push https://x-access-token:${{ secrets.NEW_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+          git commit -m "Update result.txt with new data" || echo "No changes to commit"
+          git push https://x-access-token:$PAT@github.com/${{ github.repository }}.git HEAD:main
