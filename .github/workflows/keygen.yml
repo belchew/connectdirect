@@ -29,5 +29,5 @@ jobs:
           git config --global user.name "belchew"
           git config --global user.email "belchew@outlook.com"
           git add key.txt
-          git commit -m "Update result.txt with new data"
-          git push
+          git commit -m "Update key.txt with new data"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
