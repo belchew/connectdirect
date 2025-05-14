@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 import subprocess
 
-with open('key.txt', 'r') as f:
+with open('result.txt', 'r') as f:
     password = f.read().strip()
 
 # Channel mapping
@@ -144,4 +144,4 @@ updated_content = content.replace('https://cdn2.glebul.com/hls/', 'https://cdn11
 with open(file_path, 'w') as file:
     file.write(updated_content)
 
-print(f"Всички .m3u8 линкове бяха заменени с .mmpeg в {file_path}.")
+print(f"File generated {file_path}.")
