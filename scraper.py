@@ -24,7 +24,7 @@ results = find_phrase_by_pattern(url, pattern)
 
 if results:
     print("[Намерени стойности с 'pass=']:")
-    with open("key.txt", "w", encoding="utf-8") as file:
+    with open("result.txt", "w", encoding="utf-8") as file:
         for match in results:
             print(match)
             file.write(match + "\n")
