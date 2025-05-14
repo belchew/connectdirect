@@ -24,7 +24,7 @@ jobs:
       - name: Run scraper script
         run: python passgen.py  # Изпълнява скрипта
 
-      - name: Commit and push result.txt to repository
+      - name: Commit and push key.txt to repository
         run: |
           git config --global user.name "belchew"
           git config --global user.email "belchew@outlook.com"
