@@ -22,7 +22,7 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Run scraper script
-        run: python scraper.py  # Изпълнява скрипта
+        run: python passgen.py  # Изпълнява скрипта
 
       - name: Commit and push result.txt to repository
         run: |
