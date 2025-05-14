@@ -1,0 +1,33 @@
+name: KeyGen
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # Всеки ден в 06:00 UTC
+  workflow_dispatch:  # Позволява ръчно стартиране
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run scraper script
+        run: python scraper.py  # Изпълнява скрипта
+
+      - name: Commit and push result.txt to repository
+        run: |
+          git config --global user.name "belchew"
+          git config --global user.email "belchew@outlook.com"
+          git add key.txt
+          git commit -m "Update result.txt with new data"
+          git push
