@@ -138,7 +138,7 @@ with open(file_path, 'r') as file:
     content = file.read()
 
 # Замени разширението
-updated_content = content.replace('https://cdn2.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn3.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn4.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn5.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn6.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn7.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn8.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn9.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://mx115.glebul.com/hlsfhd/', 'https://cdn11.glebul.com/dvr/').replace('index.m3u8?', 'tracks-v1a1/index.m3u8?')
+updated_content = content.replace('https://cdn2.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn3.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn4.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn5.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn6.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn7.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn8.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://cdn9.glebul.com/hls/', 'https://cdn11.glebul.com/dvr/').replace('https://mx115.glebul.com/hlsfhd/', 'https://cdn11.glebul.com/dvr/').replace('index.m3u8?', 'tracks-v1a1/index.m3u8?').replace('hd.m3u8?', 'hd/tracks-v1a1/index.m3u8?')
 
 # Запиши отново файла с променените линкове
 with open(file_path, 'w') as file:
