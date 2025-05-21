@@ -1,33 +1,18 @@
-import requests
-import re
-from bs4 import BeautifulSoup
+from urllib.parse import urlparse
 
-def find_phrase_by_pattern(url, pattern):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-    except requests.RequestException as e:
-        print(f"Грешка при зареждане на URL: {e}")
-        return []
-
-    soup = BeautifulSoup(response.text, 'html.parser')
-    text = soup.get_text()
-
-    matches = re.findall(pattern, text)
-    return matches
+def extract_after_questionmark(url):
+    parsed_url = urlparse(url)
+    return parsed_url.query  # Връща всичко след "/?"
 
 # === Пример за използване ===
-url = "https://www.otustanausta.com/search.php?keywords=pass"  # <-- смени с твоя URL
-pattern = r"pass=[^\s&\"'>]+"  # Улавя pass=стойност
+url = "https://www.seir-sanduk.com/?pass=xxxxxxxxxxxx"
 
-results = find_phrase_by_pattern(url, pattern)
+result = extract_after_questionmark(url)
 
-if results:
-    print("[Намерени стойности с 'pass=']:")
+if result:
     with open("result.txt", "w", encoding="utf-8") as file:
-        for match in results:
-            print(match)
-            file.write(match + "\n")
-    print("\n[✓] Записано в result.txt")
+        file.write(result + "\n")
+    print("[✓] Извлечено и записано в result.txt:")
+    print(result)
 else:
-    print("Няма намерени стойности.")
+    print("Няма нищо след '/?' в URL-а.")
