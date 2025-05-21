@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 
 # Данни за вход
 login_url = "https://www.otustanausta.com/ucp.php?mode=login"
-inbox_url = "https://www.otustanausta.com/ucp.php?i=p,&folder=inbox"
+inbox_url = "https://www.otustanausta.com/ucp.php?i=pm&folder=inbox"
 username = "itv"
 password = "P@r0la"
 
