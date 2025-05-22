@@ -2,7 +2,7 @@ name: Daily Scraper
 
 on:
   schedule:
-    - cron: "1 */5 * * *"  # Всеки 30 минути от 06:00АМ - 08:00АМ
+    - cron: "10 00 * * *"  # Всеки 30 минути от 06:00АМ - 08:00АМ
   workflow_dispatch:         # Позволява ръчно стартиране
 
 permissions:
