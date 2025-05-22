@@ -15,8 +15,8 @@ parsed_url = urlparse(final_url)
 query_params = parse_qs(parsed_url.query)
 
 # Проверява дали параметърът "pass" съществува
-if '?/' in query_params:
-    pass_value = query_params['?/'][0]
+if 'pass' in query_params:
+    pass_value = 'pass=' + query_params['pass'][0]  # Добавя "pass=" пред стойността
 else:
     pass_value = ""  # Ако параметърът "pass" не съществува, оставяме празно
 
