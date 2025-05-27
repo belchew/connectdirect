@@ -2,7 +2,7 @@ name: KeyGen
 
 on:
   schedule:
-    - cron: "10 00 * * *"  # Всеки 30 минути от 06:00АМ - 08:00АМ
+    - cron: "15 19 * * *"  
   workflow_dispatch:         # Позволява ръчно стартиране
 
 permissions:
