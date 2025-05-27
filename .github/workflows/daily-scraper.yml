@@ -6,7 +6,7 @@ on:
   workflow_dispatch:         # Позволява ръчно стартиране
 
 permissions:
-  contents: write  # Нужно за комит и push
+  contents: write  
 
 jobs:
   run-scraper:
@@ -36,7 +36,7 @@ jobs:
 
       - name: Commit and push result.txt
         env:
-          PAT: ${{ secrets.MY_GITHUB_TOKEN }}  # Използва твоя PAT от Secrets
+          PAT: ${{ secrets.MY_GITHUB_TOKEN }}  
         run: |
           git add result.txt
           git commit -m "Update result.txt via GitHub Actions" || echo "No changes to commit"
