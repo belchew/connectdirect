@@ -36,6 +36,6 @@ jobs:
           git config user.email "belchew@outlook.com"
           git rm -r --cached connecting || true  # Премахва embedded git
           git add sources.m3u
-          git commit -m "originals" || echo "Nothing to commit"
+          git commit -m "ReNewed orgin strings" || echo "Nothing to commit"
           git remote set-url origin https://belchew:${GH_PAT}@github.com/belchew/connectdirect.git
           git push origin HEAD
