@@ -26,6 +26,6 @@ jobs:
         run: |
           git config user.name "belchew"
           git config user.email "belchew@outlook.com"
-          git add name-of-your-file.ext
-          git commit -m "Copied file from private repo 'connecting'"
+          git add sources.m3u
+          git commit -m "Moved 'connecting'"
           git push
