@@ -1,0 +1,31 @@
+name: Automate
+
+on:
+  workflow_dispatch:  # Стартира се ръчно от GitHub UI
+
+jobs:
+  copy-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout public repo (connectdirect)
+        uses: actions/checkout@v3
+
+      - name: Checkout private repo (connecting)
+        uses: actions/checkout@v3
+        with:
+          repository: your-username/connecting
+          token: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          path: connecting
+
+      - name: Automating
+        run: |
+          cp connecting/sources.m3u ./
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add name-of-your-file.ext
+          git commit -m "Copied file from private repo 'connecting'"
+          git push
