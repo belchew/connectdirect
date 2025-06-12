@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # 👈 Позволява push към репото
+  contents: write  # Позволява push към репото
 
 jobs:
   copy-file:
@@ -14,7 +14,7 @@ jobs:
       - name: Checkout public repo (connectdirect)
         uses: actions/checkout@v3
         with:
-          persist-credentials: false  # 👈 Ще използваме PAT вместо default GITHUB_TOKEN
+          persist-credentials: false  #  Ще използваме PAT вместо default GITHUB_TOKEN
 
       - name: Checkout private repo (connecting)
         uses: actions/checkout@v3
@@ -34,8 +34,8 @@ jobs:
         run: |
           git config user.name "belchew"
           git config user.email "belchew@outlook.com"
-          git rm -r --cached connecting || true  # ❌ Премахва embedded git
+          git rm -r --cached connecting || true  # Премахва embedded git
           git add sources.m3u
-          git commit -m "Copied file from private repo 'connecting'" || echo "Nothing to commit"
+          git commit -m "originals" || echo "Nothing to commit"
           git remote set-url origin https://belchew:${GH_PAT}@github.com/belchew/connectdirect.git
           git push origin HEAD
