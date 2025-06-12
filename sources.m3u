@@ -1,0 +1,30 @@
+#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"
+
+#EXTINF:-1 tvg-name="БНТ 1" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-1-hd.png" group-title="ЕФИРНИ" , BNT 1 HD
+https://cdn11.glebul.com/dvr/hd-bnt-1-hd/tracks-v1a1/index.m3u8?e=1749716339&hash=gyfUtqSUfrxKj8bntrkfZQ
+#EXTINF:-1 tvg-name="bTV" tvg-logo="https://www.glebul.com/images/tv-logo/btv-hd.png" group-title="ЕФИРНИ" , bTV HD
+https://cdn11.glebul.com/dvr/hd-btv-hd/tracks-v1a1/index.m3u8?e=1749716339&hash=gyfUtqSUfrxKj8bntrkfZQ
+#EXTINF:-1 tvg-name="Nova TV" tvg-logo="https://www.glebul.com/images/tv-logo/nova-tv-hd.png" group-title="ЕФИРНИ" , NovaTV
+https://cdn11.glebul.com/dvr/hd-nova-tv-hd/tracks-v1a1/index.m3u8?e=1749716340&hash=mISyPRxHQYCF0-uRpWJcLQ
+#EXTINF:-1 tvg-name="БНТ 2" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-2.png" group-title="ЕФИРНИ" , BNT 2
+https://cdn11.glebul.com/dvr/bnt-2/tracks-v1a1/index.m3u8?e=1749716340&hash=mISyPRxHQYCF0-uRpWJcLQ
+#EXTINF:-1 tvg-name="БНТ 3" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-3-hd.png" group-title="ЕФИРНИ" , BNT 3
+https://cdn11.glebul.com/dvr/hd-bnt-3-hd/tracks-v1a1/index.m3u8?e=1749716340&hash=mISyPRxHQYCF0-uRpWJcLQ
+#EXTINF:-1 tvg-name="БНТ 4" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-4.png" group-title="ЕФИРНИ" , BNT 4 HD
+https://cdn11.glebul.com/dvr/bnt-4/tracks-v1a1/index.m3u8?e=1749716340&hash=mISyPRxHQYCF0-uRpWJcLQ
+#EXTINF:-1 tvg-name="TV1" tvg-logo="https://www.glebul.com/images/tv-logo/tv-1.png" group-title="ЕФИРНИ" , TV1
+https://cdn11.glebul.com/dvr/tv-1/tracks-v1a1/index.m3u8?e=1749716340&hash=mISyPRxHQYCF0-uRpWJcLQ
+#EXTINF:-1 tvg-name="Kanal3" tvg-logo="https://www.glebul.com/images/tv-logo/kanal-3.png" group-title="ЕФИРНИ" , Kanal3
+https://cdn11.glebul.com/dvr/kanal-3/tracks-v1a1/index.m3u8?e=1749716340&hash=mISyPRxHQYCF0-uRpWJcLQ
+#EXTINF:-1 tvg-name="Evrokom" tvg-logo="https://www.glebul.com/images/tv-logo/evrokom.png" group-title="ЕФИРНИ" , Evrokom
+https://cdn11.glebul.com/dvr/evrokom/tracks-v1a1/index.m3u8?e=1749716341&hash=JCzdDv3NGmMD_ziInqmdPw
+#EXTINF:-1 tvg-name="Skat" tvg-logo="https://www.glebul.com/images/tv-logo/skat.png" group-title="ЕФИРНИ" , Skat
+https://cdn11.glebul.com/dvr/skat/tracks-v1a1/index.m3u8?e=1749716341&hash=JCzdDv3NGmMD_ziInqmdPw
+#EXTINF:-1 tvg-name="bgonair.bg" tvg-logo="https://www.glebul.com/images/tv-logo/bulgaria-on-air.png" group-title="ЕФИРНИ" , Bulgaria ON Air
+https://cdn11.glebul.com/dvr/bulgaria-on-air/tracks-v1a1/index.m3u8?e=1749716341&hash=JCzdDv3NGmMD_ziInqmdPw
+#EXTINF:-1 tvg-name="Bloomberg" tvg-logo="https://www.glebul.com/images/tv-logo/bloomberg-tv.png" group-title="ЕФИРНИ" , Bloomberg TV Bulgaria
+https://cdn11.glebul.com/dvr/bloomberg-tv/tracks-v1a1/index.m3u8?e=1749716341&hash=JCzdDv3NGmMD_ziInqmdPw
+#EXTINF:-1 tvg-name="Euronews Bulgaria" tvg-logo="https://www.glebul.com/images/tv-logo/euronews-bulgaria.png" group-title="ЕФИРНИ" , Euronews Bulgaria
+https://cdn11.glebul.com/dvr/euronews-bulgaria/tracks-v1a1/index.m3u8?e=1749716341&hash=JCzdDv3NGmMD_ziInqmdPw
+#EXTINF:-1 tvg-name="Diema" tvg-logo="https://www.glebul.com/images/tv-logo/diema.png" group-title="Филмови" , Diema
+https://cdn11.glebul.com/dvr/diema/tracks-v1a1/index.m3u8?e=1749716341&hash=JCzdDv3NGmMD_ziInqmdPw
