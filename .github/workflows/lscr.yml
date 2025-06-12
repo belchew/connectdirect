@@ -6,7 +6,6 @@ on:
   schedule:
     - cron: "01 */1 * * *"  # 
   workflow_dispatch:
-  workflow_dispatch:
 
 permissions:
   contents: write  # Позволява push към репото
