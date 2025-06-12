@@ -22,11 +22,15 @@ jobs:
         run: |
           cp connecting/sources.m3u ./
 
-      - name: Commit and push changes
+      - name: Push using PAT
+        env:
+          GH_PAT: ${{ secrets.PRIVATE_REPO_TOKEN }}
         run: |
           git config user.name "belchew"
           git config user.email "belchew@outlook.com"
-          git add sources.m3u
-          git commit -m "Copied example.txt from private repo"
-          git push
+          git add -A
+          git commit -m "Copied file from private repo 'connecting'" || echo "Nothing to commit"
+          git remote set-url origin https://belchew:${GH_PAT}@github.com/belchew/connectdirect.git
+          git push origin HEAD
+
 
