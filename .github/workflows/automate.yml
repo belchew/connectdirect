@@ -14,7 +14,7 @@ jobs:
       - name: Checkout private repo (connecting)
         uses: actions/checkout@v3
         with:
-          repository: your-username/connecting
+          repository: belchew/connecting
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           path: connecting
 
@@ -24,8 +24,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "belchew"
+          git config user.email "belchew@outlook.com"
           git add name-of-your-file.ext
           git commit -m "Copied file from private repo 'connecting'"
           git push
