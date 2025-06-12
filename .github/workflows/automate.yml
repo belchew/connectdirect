@@ -1,7 +1,10 @@
 name: Automate
 
 on:
-  workflow_dispatch:  # Стартира се ръчно от GitHub UI
+  workflow_dispatch:
+
+permissions:
+  contents: write  # 👈 Позволява push към репото
 
 jobs:
   copy-file:
@@ -10,6 +13,8 @@ jobs:
     steps:
       - name: Checkout public repo (connectdirect)
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # 👈 Ще използваме PAT вместо default GITHUB_TOKEN
 
       - name: Checkout private repo (connecting)
         uses: actions/checkout@v3
@@ -17,8 +22,9 @@ jobs:
           repository: belchew/connecting
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           path: connecting
+          persist-credentials: false
 
-      - name: Automating
+      - name: Copy sources.m3u from private repo
         run: |
           cp connecting/sources.m3u ./
 
@@ -28,9 +34,8 @@ jobs:
         run: |
           git config user.name "belchew"
           git config user.email "belchew@outlook.com"
-          git add -A
+          git rm -r --cached connecting || true  # ❌ Премахва embedded git
+          git add sources.m3u
           git commit -m "Copied file from private repo 'connecting'" || echo "Nothing to commit"
           git remote set-url origin https://belchew:${GH_PAT}@github.com/belchew/connectdirect.git
           git push origin HEAD
-
-
