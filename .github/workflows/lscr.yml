@@ -1,6 +1,11 @@
 name: refreshing...
 
 on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "01 */1 * * *"  # 
+  workflow_dispatch:
   workflow_dispatch:
 
 permissions:
