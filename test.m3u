@@ -1,1 +1,4 @@
+#EXTM3U
 
+#EXTINF:-1 tvg-name="БНТ 1" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-1-hd.png" group-title="ЕФИРНИ" , BNT 1 HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/bnt.m3u
