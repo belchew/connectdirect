@@ -1,6 +1,10 @@
 name: auto-refresh
 
 on:
+  push:
+    branches: [main]
+  schedule:
+   - cron: "01 */1 * * *"  # 
   workflow_dispatch:
 
 jobs:
