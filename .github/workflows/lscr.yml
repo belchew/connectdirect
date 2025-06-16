@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "01 */1 * * *"  # 
+    - cron: "01 */1 * * *"  # веднъж на час
   workflow_dispatch:
 
 permissions:
@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   copy-file:
+    if: github.actor != 'belchew'  # предотвратява циклично задействане
     runs-on: ubuntu-latest
 
     steps:
@@ -32,14 +33,21 @@ jobs:
         run: |
           cp connecting/sources.m3u ./
 
-      - name: Push using PAT
+      - name: Push using PAT only if changed
         env:
           GH_PAT: ${{ secrets.PRIVATE_REPO_TOKEN }}
         run: |
           git config user.name "belchew"
           git config user.email "belchew@outlook.com"
-          git rm -r --cached connecting || true  
+          git rm -r --cached connecting || true
           git add sources.m3u
-          git commit -m "ReNewed orgin strings" || echo "Nothing to commit"
+
+          # Проверка за промени
+          if git diff --cached --quiet; then
+            echo "❌ Няма промени – няма да се commit-ва или push-ва."
+            exit 0
+          fi
+
+          git commit -m "ReNewed origin strings"
           git remote set-url origin https://belchew:${GH_PAT}@github.com/belchew/connectdirect.git
           git push origin HEAD
