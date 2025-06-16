@@ -4,25 +4,48 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '01 */1 * * *'  # веднъж на час
+    - cron: "01 */1 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  update:
+  copy-file:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout main repo
+      - name: Checkout public repo (connectdirect)
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false  
 
-      - name: Checkout private repo
+      - name: Checkout private repo (connecting)
         uses: actions/checkout@v3
         with:
           repository: belchew/connecting
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           path: connecting
+          persist-credentials: false
 
-      - name: Copy sources.m3u file
+      - name: Copy sources.m3u from private repo
         run: |
-          cp connecting/sources.m3u .
-          echo "sources.m3u copied successfully"
+          cp connecting/sources.m3u ./
+
+      - name: Commit and push only if sources.m3u changed
+        env:
+          GH_PAT: ${{ secrets.PRIVATE_REPO_TOKEN }}
+        run: |
+          git config user.name "belchew"
+          git config user.email "belchew@outlook.com"
+          git rm -r --cached connecting || true  
+          git add sources.m3u
+
+          if git diff --cached --quiet; then
+            echo "No changes detected, skipping commit and push"
+            exit 0
+          fi
+
+          git commit -m "Update sources.m3u"
+          git remote set-url origin https://belchew:${GH_PAT}@github.com/belchew/connectdirect.git
+          git push origin HEAD
