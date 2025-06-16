@@ -1,4 +1,4 @@
-name: auto-refresh
+name: read-only-refresh
 
 on:
   workflow_dispatch:
@@ -16,17 +16,6 @@ jobs:
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           path: connecting
 
-      - run: cp connecting/sources.m3u .
-
-          git config user.name "belchew"
-          git config user.email "belchew@outlook.com"
-          git add sources.m3u
-
-          if git diff --cached --quiet; then
-            echo "Nothing to update..."
-            exit 0
-          fi
-
-          git commit -m "Update sources.m3u"
-          git remote set-url origin https://belchew:${{ secrets.PRIVATE_REPO_TOKEN }}@github.com/belchew/connectdirect.git
-          git push origin HEAD
+      - name: Copy file
+        run: cp connecting/sources.m3u .
+      
