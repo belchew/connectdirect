@@ -20,6 +20,15 @@ jobs:
         with:
           persist-credentials: false  
 
+      - name: Exit if commit is from auto-refresh
+        run: |
+          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          echo "Last commit: $LAST_COMMIT_MESSAGE"
+          if [[ "$LAST_COMMIT_MESSAGE" == "Update sources.m3u" ]]; then
+            echo "Detected auto-refresh commit, exiting..."
+            exit 0
+          fi
+
       - name: Checkout private repo (connecting)
         uses: actions/checkout@v3
         with:
