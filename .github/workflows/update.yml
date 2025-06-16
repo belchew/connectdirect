@@ -24,7 +24,7 @@ jobs:
           git add sources.m3u
 
           if git diff --cached --quiet; then
-            echo "No changes."
+            echo "Nothing to update..."
             exit 0
           fi
 
