@@ -1,53 +1,33 @@
-name: refreshing...
+name: auto-refresh
 
 on:
-  push:
-    branches: [main]
-  schedule:
-    - cron: "01 */1 * * *"  # веднъж на час
   workflow_dispatch:
 
-permissions:
-  contents: write  # Позволява push към репото
-
 jobs:
-  copy-file:
-    if: github.actor != 'belchew'  # предотвратява циклично задействане
+  update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout public repo (connectdirect)
-        uses: actions/checkout@v3
-        with:
-          persist-credentials: false  
+      - uses: actions/checkout@v3
 
-      - name: Checkout private repo (connecting)
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           repository: belchew/connecting
           token: ${{ secrets.PRIVATE_REPO_TOKEN }}
           path: connecting
-          persist-credentials: false
 
-      - name: Copy sources.m3u from private repo
-        run: |
-          cp connecting/sources.m3u ./
+      - run: |
+          cp connecting/sources.m3u .
 
-      - name: Push using PAT only if changed
-        env:
-          GH_PAT: ${{ secrets.PRIVATE_REPO_TOKEN }}
-        run: |
           git config user.name "belchew"
           git config user.email "belchew@outlook.com"
-          git rm -r --cached connecting || true
           git add sources.m3u
 
-          # Проверка за промени
           if git diff --cached --quiet; then
-            echo "❌ Няма промени – няма да се commit-ва или push-ва."
+            echo "No changes."
             exit 0
           fi
 
-          git commit -m "ReNewed origin strings"
-          git remote set-url origin https://belchew:${GH_PAT}@github.com/belchew/connectdirect.git
+          git commit -m "Update sources.m3u"
+          git remote set-url origin https://belchew:${{ secrets.PRIVATE_REPO_TOKEN }}@github.com/belchew/connectdirect.git
           git push origin HEAD
