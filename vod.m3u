@@ -1,0 +1,126 @@
+#EXTM3U catchup="flussonic" url-tvg="https://github.com/harrygg/EPG/raw/refs/heads/master/all-2days.details.epg.xml.gz"
+
+#EXTINF:-1 tvg-name="БНТ 1" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-1-hd.png" group-title="ЕФИРНИ" , BNT 1 HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_1.m3u
+#EXTINF:-1 tvg-name="bTV" tvg-logo="https://www.glebul.com/images/tv-logo/btv-hd.png" group-title="ЕФИРНИ" , bTV HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_2.m3u
+#EXTINF:-1 tvg-name="Nova TV" tvg-logo="https://www.glebul.com/images/tv-logo/nova-tv-hd.png" group-title="ЕФИРНИ" , NovaTV
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_3.m3u
+#EXTINF:-1 tvg-name="БНТ 2" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-2.png" group-title="ЕФИРНИ" , BNT 2
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_4.m3u
+#EXTINF:-1 tvg-name="БНТ 3" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-3-hd.png" group-title="ЕФИРНИ" , BNT 3
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_5.m3u
+#EXTINF:-1 tvg-name="БНТ 4" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-4.png" group-title="ЕФИРНИ" , BNT 4 HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_6.m3u
+#EXTINF:-1 tvg-name="TV1" tvg-logo="https://www.glebul.com/images/tv-logo/tv-1.png" group-title="ЕФИРНИ" , TV1
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_7.m3u
+#EXTINF:-1 tvg-name="Kanal3" tvg-logo="https://www.glebul.com/images/tv-logo/kanal-3.png" group-title="ЕФИРНИ" , Kanal3
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_8.m3u
+#EXTINF:-1 tvg-name="Evrokom" tvg-logo="https://www.glebul.com/images/tv-logo/evrokom.png" group-title="ЕФИРНИ" , Evrokom
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_9.m3u
+#EXTINF:-1 tvg-name="Skat" tvg-logo="https://www.glebul.com/images/tv-logo/skat.png" group-title="ЕФИРНИ" , Skat
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_10.m3u
+#EXTINF:-1 tvg-name="bgonair.bg" tvg-logo="https://www.glebul.com/images/tv-logo/bulgaria-on-air.png" group-title="ЕФИРНИ" , Bulgaria ON Air
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_11.m3u
+#EXTINF:-1 tvg-name="Bloomberg" tvg-logo="https://www.glebul.com/images/tv-logo/bloomberg-tv.png" group-title="ЕФИРНИ" , Bloomberg TV Bulgaria
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_12.m3u
+#EXTINF:-1 tvg-name="Euronews Bulgaria" tvg-logo="https://www.glebul.com/images/tv-logo/euronews-bulgaria.png" group-title="ЕФИРНИ" , Euronews Bulgaria
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_13.m3u
+#EXTINF:-1 tvg-name="Diema" tvg-logo="https://www.glebul.com/images/tv-logo/diema.png" group-title="Филмови" , Diema
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_14.m3u
+#EXTINF:-1 tvg-name="bTV Action" tvg-logo="https://www.glebul.com/images/tv-logo/btv-action-hd.png" group-title="Спортни"  , bTV Action HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_15.m3u
+#EXTINF:-1 tvg-name="bTV Cinema" tvg-logo="https://www.glebul.com/images/tv-logo/btv-cinema.png" group-title="Филмови" , bTV Cinema HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_16.m3u
+#EXTINF:-1 tvg-name="bTV Comedy" tvg-logo="https://www.glebul.com/images/tv-logo/btv-comedy.png" group-title="Филмови" , bTV Comedy HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_17.m3u
+#EXTINF:-1 tvg-name="bTV Story" tvg-logo="https://www.glebul.com/images/tv-logo/btv-story.png" group-title="Филмови" , bTV Story HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_18.m3u
+#EXTINF:-1 tvg-name="KinoNova" tvg-logo="https://www.glebul.com/images/tv-logo/kino-nova.png" group-title="Филмови" , KinoNova
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_19.m3u
+#EXTINF:-1 tvg-name="id extra HD" tvg-logo="https://www.glebul.com/images/tv-logo/id-xtra-hd.png" group-title="Филмови" , ID Extra HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_20.m3u
+#EXTINF:-1 tvg-name="Diema Family" tvg-logo="https://www.glebul.com/images/tv-logo/diema-family.png" group-title="Филмови" , Diema Family
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_21.m3u
+#EXTINF:-1 tvg-name="STAR CHANNEL" tvg-logo="https://www.glebul.com/images/tv-logo/star-channel-hd.png" group-title="Филмови" , STAR CHANNEL HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_22.m3u
+#EXTINF:-1 tvg-name="STAR Life" tvg-logo="https://www.glebul.com/images/tv-logo/star-life-hd.png" group-title="Филмови" , STAR Life HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_23.m3u
+#EXTINF:-1 tvg-name="STAR Crime " tvg-logo="https://www.glebul.com/images/tv-logo/star-crime-hd.png" group-title="Филмови" , STAR Crime HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_24.m3u
+#EXTINF:-1 tvg-name="7/8 TV" tvg-logo="https://www.glebul.com/images/tv-logo/78-tv-hd.png" group-title="ЕФИРНИ" , 7/8 TV HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_25.m3u
+#EXTINF:-1 tvg-name="Nova Sport" tvg-logo="https://www.glebul.com/images/tv-logo/nova-sport-hd.png" group-title="Спортни" , Nova Sport HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_26.m3u
+#EXTINF:-1 tvg-name="Ring BG" tvg-logo="https://www.glebul.com/images/tv-logo/ring-bg-hd.png" group-title="Спортни" , Ring BG
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_27.m3u
+#EXTINF:-1 tvg-name="Diema Sport" tvg-logo="https://www.glebul.com/images/tv-logo/diema-sport-hd.png" group-title="Спортни" , Diema Sport
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_28.m3u
+#EXTINF:-1 tvg-name="Diema Sport 2" tvg-logo="https://www.glebul.com/images/tv-logo/diema-sport-2-hd.png" group-title="Спортни" , Diema Sport 2
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_29.m3u
+#EXTINF:-1 tvg-name="Diema Sport 3" tvg-logo="https://www.glebul.com/images/tv-logo/diema-sport-3-hd.png" group-title="Спортни" , Diema Sport 3
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_30.m3u
+#EXTINF:-1 tvg-name="Max Sport 1 HD" tvg-logo="https://www.glebul.com/images/tv-logo/max-sport-1-hd.png" group-title="Спортни" , Max Sport 1 HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_31.m3u
+#EXTINF:-1 tvg-name="Max Sport 2 HD" tvg-logo="https://www.glebul.com/images/tv-logo/max-sport-2-hd.png" group-title="Спортни" , Max Sport 2 HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_32.m3u
+#EXTINF:-1 tvg-name="Max Sport 3 HD" tvg-logo="https://www.glebul.com/images/tv-logo/max-sport-3-hd.png" group-title="Спортни" , Max Sport 3 HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_33.m3u
+#EXTINF:-1 tvg-name="Max Sport 4 HD" tvg-logo="https://www.glebul.com/images/tv-logo/max-sport-4-hd.png" group-title="Спортни" , Max Sport 4 HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_34.m3u
+#EXTINF:-1 tvg-name="Eurosport" tvg-logo="https://www.glebul.com/images/tv-logo/eurosport-1-hd.png" group-title="Спортни" , Eurosport HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_35.m3u
+#EXTINF:-1 tvg-name="Eurosport 2" tvg-logo="https://www.glebul.com/images/tv-logo/eurosport-2-hd.png" group-title="Спортни" , Eurosport 2 HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_36.m3u
+#EXTINF:-1 tvg-id="AXN" tvg-name="AXN" tvg-logo="https://www.glebul.com/images/tv-logo/axn.png" group-title="Филмови" , AXN
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_37.m3u
+#EXTINF:-1 tvg-name="Discovery Channel" tvg-logo="https://www.glebul.com/images/tv-logo/discovery-channel-hd.png" group-title="Научни" , Discovery Channel HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_38.m3u
+#EXTINF:-1 tvg-name="NatGeo Wild" tvg-logo="https://www.glebul.com/images/tv-logo/nat-geo-wild-hd.png" group-title="Научни" , Nat Geo Wild HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_39.m3u
+#EXTINF:-1 tvg-name="DSTV" tvg-logo="https://www.glebul.com/images/tv-logo/dstv.png" group-title="Музикални" , DSTV
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_40.m3u
+#EXTINF:-1 tvg-name="Planeta" tvg-logo="https://www.glebul.com/images/tv-logo/planeta-hd.png" group-title="Музикални" , Planeta HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_41.m3u
+#EXTINF:-1 tvg-name="Planeta Folk" tvg-logo="https://www.glebul.com/images/tv-logo/planeta-folk.png" group-title="Музикални" , Planeta Folk
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_42.m3u
+#EXTINF:-1 tvg-name="The Voice" tvg-logo="https://www.glebul.com/images/tv-logo/the-voice.png" group-title="Музикални" , The Voice
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_43.m3u
+#EXTINF:-1 tvg-name="City TV" tvg-logo="https://www.glebul.com/images/tv-logo/city-tv.png" group-title="Музикални" , City TV
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_44.m3u
+#EXTINF:-1 tvg-name="folklor-tv" tvg-logo="https://www.glebul.com/images/tv-logo/folklor-tv.png" group-title="Музикални" , Folklor TV
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_45.m3u
+#EXTINF:-1 tvg-name="Rodina TV" tvg-logo="https://www.glebul.com/images/tv-logo/rodina-tv.png" group-title="Музикални" , Rodina TV HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_46.m3u
+#EXTINF:-1 tvg-name="TiankovFolk" tvg-logo="https://www.glebul.com/images/tv-logo/tiankov-tv.png" group-title="Музикални" , Tiankov Folk
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_47.m3u
+#EXTINF:-1 tvg-name="Cartoon Network" tvg-logo="https://www.glebul.com/images/tv-logo/cartoon-network.png" group-title="Детски" , Cartoon Network HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_48.m3u
+#EXTINF:-1 tvg-name="Disney channel" tvg-logo="https://www.glebul.com/images/tv-logo/disney-channel.png" group-title="Детски" , Disney channel
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_49.m3u
+#EXTINF:-1 tvg-name="Nickeldeon" tvg-logo="https://www.glebul.com/images/tv-logo/nickelodeon.png" group-title="Детски" , Nickelodeon
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_50.m3u
+#EXTINF:-1 tvg-name="Nick Jr." tvg-logo="https://www.glebul.com/images/tv-logo/nick-jr.png" group-title="Детски" , Nick Jr
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_51.m3u
+#EXTINF:-1 tvg-name="EKids" tvg-logo="https://www.glebul.com/images/tv-logo/e-kids.png" group-title="Детски" , EKids
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_52.m3u
+#EXTINF:-1 tvg-name="Nicktoons" tvg-logo="https://www.glebul.com/images/tv-logo/nicktoons.png" group-title="Детски" , Nicktoons
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_53.m3u
+#EXTINF:-1 tvg-name="National Geographic" tvg-logo="https://www.glebul.com/images/tv-logo/nat-geo-hd.png" group-title="Научни" National Geographic HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_54.m3u
+#EXTINF:-1 tvg-name="Travel" tvg-logo="https://www.glebul.com/images/tv-logo/travel-tv.png" group-title="Други" , Travel TV
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_55.m3u
+#EXTINF:-1 tvg-name="VTK" tvg-logo="https://www.glebul.com/images/tv-logo/vtk.png" group-title="Други" , VTK
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_56.m3u
+#EXTINF:-1 tvg-name="CodeFashion HD" tvg-logo="https://www.glebul.com/images/tv-logo/code-fashion-tv-hd.png" group-title="Други" , CodeFashion
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_57.m3u
+#EXTINF:-1 tvg-name="Food Network" tvg-logo="https://www.glebul.com/images/tv-logo/food-network-hd.png" group-title="Други" , Food Network
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_58.m3u
+#EXTINF:-1 tvg-name="Epic Drama" tvg-logo="https://www.glebul.com/images/tv-logo/epic-drama-hd.png" group-title="Филмови" , Epic Drama
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_59.m3u
+#EXTINF:-1 tvg-name="TLC" tvg-logo="https://www.glebul.com/images/tv-logo/tlc.png" group-title="Други" , TLC HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_60.m3u
+#EXTINF:-1 tvg-name="24 Kitchen" tvg-logo="https://www.glebul.com/images/tv-logo/24-kitchen-hd.png" group-title="Други" , 24 Kitchen HD
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_61.m3u
+#EXTINF:-1 tvg-name="Travel Channel" tvg-logo="https://www.glebul.com/images/tv-logo/travel-channel-hd.png" group-title="Научни" , Travel Channel
+https://raw.githubusercontent.com/belchew/connectdirect/refs/heads/main/load/ch_62.m3u
