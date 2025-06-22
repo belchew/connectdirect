@@ -37,13 +37,11 @@ jobs:
           path: connecting
           persist-credentials: false
 
-      - name: Copy sources.m3u and load directory from private repo
+      - name: Copy sources.m3u from private repo
         run: |
           cp connecting/sources.m3u ./
-          rm -rf load
-          cp -r connecting/load ./load
 
-      - name: Commit and push only if sources.m3u or load changed
+      - name: Commit and push only if sources.m3u changed
         env:
           GH_PAT: ${{ secrets.PRIVATE_REPO_TOKEN }}
         run: |
@@ -51,13 +49,12 @@ jobs:
           git config user.email "belchew@outlook.com"
           git rm -r --cached connecting || true  
           git add sources.m3u
-          git add load/
 
           if git diff --cached --quiet; then
             echo "No changes detected, skipping commit and push"
             exit 0
           fi
 
-          git commit -m "Update sources.m3u and load directory"
+          git commit -m "Update sources.m3u"
           git remote set-url origin https://belchew:${GH_PAT}@github.com/belchew/connectdirect.git
           git push origin HEAD
