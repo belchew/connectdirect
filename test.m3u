@@ -1,0 +1,8 @@
+#EXTM3U
+
+#EXTINF:-1 tvg-name="БНТ 1" tvg-logo="https://www.glebul.com/images/tv-logo/bnt-1-hd.png" group-title="ЕФИРНИ" , BNT 1 HD
+https://raw.githubusercontent.com/belchew/connectdirect/main/ch_1.m3u8
+#EXTINF:-1 tvg-name="bTV" tvg-logo="https://www.glebul.com/images/tv-logo/btv-hd.png" group-title="ЕФИРНИ" , bTV HD
+https://raw.githubusercontent.com/belchew/connectdirect/main/ch_10.m3u8
+#EXTINF:-1 tvg-name="Nova TV" tvg-logo="https://www.glebul.com/images/tv-logo/nova-tv-hd.png" group-title="ЕФИРНИ" , NovaTV
+https://raw.githubusercontent.com/belchew/connectdirect/main/ch_11.m3u8
